@@ -14,7 +14,7 @@ func GetTodos() []model.Todo {
 }
 
 // CreateTodo - service untuk membuat todo baru
-func CreateTodo(title string) (model.Todo, error) {
+func CreateTodo(title string, description string) (model.Todo, error) {
 	// STEP 4a: Validasi - pastikan title tidak kosong
 	if title == "" {
 		return model.Todo{}, errors.New("Title tidak boleh kosong")
@@ -22,8 +22,9 @@ func CreateTodo(title string) (model.Todo, error) {
 
 	// STEP 4b: Buat object todo baru dengan status false (belum selesai)
 	todo := model.Todo{
-		Title: title,
-		Done:  false,
+		Title:       title,
+		Done:        false,
+		Description: description,
 	}
 
 	// STEP 4c: Panggil repository untuk menyimpan todo

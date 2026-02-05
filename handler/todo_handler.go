@@ -24,7 +24,8 @@ func GetTodos(w http.ResponseWriter, r *http.Request) {
 func CreateTodo(w http.ResponseWriter, r *http.Request) {
 	// STEP 3a: Siapkan struct untuk menerima request body
 	var body struct {
-		Title string `json:"title"`
+		Title       string `json:"title"`
+		Description string `json:"description"`
 	}
 
 	// STEP 3b: Decode JSON dari request body ke struct
@@ -34,7 +35,7 @@ func CreateTodo(w http.ResponseWriter, r *http.Request) {
 	// STEP 4: Service melakukan validasi input
 	// STEP 5: Service membuat object todo dan panggil repository
 	// STEP 6: Repository menyimpan data dan return object
-	todo, err := service.CreateTodo(body.Title)
+	todo, err := service.CreateTodo(body.Title, body.Description)
 
 	// STEP 7: Cek error dari service
 	if err != nil {
