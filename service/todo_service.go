@@ -52,3 +52,30 @@ func GetTodoById(id int) (model.Todo, error) {
 	// STEP 6: Return todo yang ditemukan
 	return todo, nil
 }
+
+// UpdateTodo - service untuk mengupdate todo berdasarkan id
+func UpdateTodo(id int, title string, description string, done bool) (model.Todo, error) {
+	// STEP 4a: Validasi - pastikan id valid (lebih dari 0)
+	if id <= 0 {
+		return model.Todo{}, errors.New("id tidak valid")
+	}
+
+	// STEP 4b: Validasi - pastikan title tidak kosong
+	if title == "" {
+		return model.Todo{}, errors.New("Title tidak boleh kosong")
+	}
+
+	// STEP 4c: Buat object todo dengan data yang diupdate
+	updateTodo := model.Todo{
+		Title:       title,
+		Done:        done,
+		Description: description,
+	}
+
+	todo, found := repository.Update(id, updateTodo)
+	if !found {
+		return model.Todo{}, errors.New("todo tidak ditemukan")
+	}
+
+	return todo, nil
+}

@@ -78,3 +78,41 @@ func GetTodoById(w http.ResponseWriter, r *http.Request) {
 	// STEP 9: Encode object todo sebagai JSON response
 	json.NewEncoder(w).Encode(todo)
 }
+
+// UpdateTodo - handler untuk PUT /todos/{id}
+func UpdateTodo(w http.ResponseWriter, r *http.Request) {
+	// Implementation for updating a todo item will go here
+	idStr := strings.TrimPrefix(r.URL.Path, "/todos/")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "id harus berupa angka", http.StatusBadRequest)
+		return
+	}
+
+	var body struct {
+		Title       string `json:"title"`
+		Done        bool   `json:"done"`
+		Description string `json:"description"`
+	}
+
+	err = json.NewDecoder(r.Body).Decode(&body)
+	if err != nil {
+		http.Error(w, "Invalid Request Body", http.StatusBadRequest)
+		return
+	}
+
+	todo, err := service.UpdateTodo(
+		id,
+		body.Title,
+		body.Description,
+		body.Done,
+	)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(todo)
+}

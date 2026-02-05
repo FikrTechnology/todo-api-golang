@@ -38,3 +38,22 @@ func GetById(id int) (model.Todo, bool) {
 	// STEP 5d: Return empty todo dan flag false (data tidak ditemukan)
 	return model.Todo{}, false
 }
+
+// Update data - repository function untuk mengupdate todo berdasarkan id
+func Update(id int, updateTodo model.Todo) (model.Todo, bool) {
+	// STEP 5a: Loop melalui semua data di storage
+	for i, todo := range todos {
+		// STEP 5b: Cek apakah ID cocok
+		if todo.ID == id {
+			// STEP 5c: Update data di storage
+			updateTodo.ID = id
+			todos[i] = updateTodo
+
+			// STEP 5d: Return todo yang sudah di-update dan flag true (data ditemukan)
+			return updateTodo, true
+		}
+	}
+
+	// STEP 5e: Return empty todo dan flag false (data tidak ditemukan)
+	return model.Todo{}, false
+}

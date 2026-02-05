@@ -25,6 +25,10 @@ func main() {
 		if r.Method == http.MethodGet {
 			handler.GetTodoById(w, r)
 		}
+
+		if r.Method == http.MethodPut {
+			handler.UpdateTodo(w, r)
+		}
 	})
 
 	// STEP 3: Start HTTP server di port 8000
